@@ -203,9 +203,13 @@ std::string defaultPager() {
 #endif
 }
 
+bool isSafePagerCommand(const std::string& pager) {
+  return pager == "less" || pager == "less -R" || pager == "more";
+}
+
 std::string selectPager() {
   if (const char* pager = std::getenv("PAGER")) {
-    if (*pager != '\0') {
+    if (*pager != '\0' && isSafePagerCommand(pager)) {
       return pager;
     }
   }
